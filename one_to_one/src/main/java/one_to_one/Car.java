@@ -13,6 +13,14 @@ public class Car {
 	private String modelyear;
 	private double price;
 
+	public Engine getE() {
+		return e;
+	}
+
+	public void setE(Engine e) {
+		this.e = e;
+	}
+
 	//Foreign key
 	@OneToOne //it will make new column in car class which is id of engine class
 	private Engine e;
@@ -56,4 +64,10 @@ public class Car {
 		this.price = price;
 	}
 
+	@Override
+	public String toString() {
+		return "Car [id=" + id + ", brand=" + brand + ", model=" + model + ", modelyear=" + modelyear + ", price="
+				+ price + ", e=" + e + "]";
+	}
+	
 }
