@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Table(name="Product")
 public class Product {
 
-    @Id
+	@Id
     private int id;
     private String name;
     private int quantity;

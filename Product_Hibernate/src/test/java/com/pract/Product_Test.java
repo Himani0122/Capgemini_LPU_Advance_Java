@@ -17,76 +17,70 @@ import com.prac.ProductDao;
 
 public class Product_Test {
 
-    static EntityManagerFactory emf;
-    static EntityManager em;
-    static EntityTransaction et;
+	 static EntityManagerFactory emf;
+	    static EntityManager em;
+	    static EntityTransaction et;
 
-    @BeforeAll
-    public static void setup() {
-        emf = Persistence.createEntityManagerFactory("postgres");
-        em = emf.createEntityManager();
-        et = em.getTransaction();
-    }
+	    @BeforeAll
+	    public static void setup() {
+	        emf = Persistence.createEntityManagerFactory("postgres");
+	        em = emf.createEntityManager();
+	        et = em.getTransaction();
+	    }
 
-//    @BeforeEach
-//    public void cleanDatabase() {
-//        et.begin();
-//        em.createQuery("DELETE FROM Product").executeUpdate();
-//        et.commit();
-//    }
+	    @Test
+	    public void testInsertProduct() {
+	        Product p = new Product();
+	        p.setId(5);
+	        p.setName("Card Board");
+	        p.setQuantity(17);
+	        p.setPrice(220);
 
-    @Test
-    public void testInsertProduct() {
-        Product p = new Product();
-        p.setId(2);
-        p.setName("Pen");
-        p.setQuantity(10);
-        p.setPrice(20.5);
+	        ProductDao.insertData(em, et, p);
 
-        ProductDao.insert(p, em, et);
-        Product fetched = em.find(, p)
-        assertEquals("Product inserted successfully", );
-    }
+	        Product fetched = em.find(Product.class, 5); 
+	        assertNotNull(fetched);
+	    }
+	    
+	    
+	    
+	    @Test
+	    public void insertProductTestNull() {
+	    	ProductDao pd = new ProductDao();
+	    	
+	    	String actualRes = pd.insertData(em, et, null);
+	    	assertEquals("Data doesn't inserted",actualRes);
+	    }
 
-//    @Test
-//    public void testUpdateProduct() {
-//        Product p = new Product();
-//        p.setId(2);
-//        p.setName("Book");
-//        p.setQuantity(5);
-//        p.setPrice(100);
-//
-//        ProductDao.insert(p, em, et);
-//
-//        ProductDao.update(2, 50, 200, em, et);
-//
-//        Product updated = ProductDao.findById(2, em);
-//
-//        assertNotNull(updated);
-//        assertEquals(50, updated.getQuantity());
-//        assertEquals(200, updated.getPrice());
-//    }
-//
-//    @Test
-//    public void testDeleteProduct() {
-//        Product p = new Product();
-//        p.setId(3);
-//        p.setName("Bag");
-//        p.setQuantity(2);
-//        p.setPrice(500);
-//
-//        ProductDao.insert(p, em, et);
-//
-//        ProductDao.delete(3, em, et);
-//
-//        Product deleted = ProductDao.findById(3, em);
-//
-//        assertNull(deleted);
-//    }
-//
-//    @AfterAll
-//    public static void close() {
-//        em.close();
-//        emf.close();
-//    }
+	    
+	    public void testUpdateProduct() {
+	        Product p = new Product();
+	        p.setId(4);
+	        p.setName("Book");
+	        p.setQuantity(5);
+	        p.setPrice(100);
+
+	        ProductDao.insertData(em, et, p);
+
+	        ProductDao.updateData(em, et, 4, 50);
+
+	        Product updated = em.find(Product.class, 4);
+	        assertEquals(50, updated.getQuantity());
+	    }
+
+	    
+	    public void testDeleteProduct() {
+	        Product p = new Product();
+	        p.setId(5);
+	        p.setName("Bag");
+	        p.setQuantity(2);
+	        p.setPrice(500);
+
+	        ProductDao.insertData(em, et, p);
+
+	        ProductDao.deleteData(em, et, 5);
+
+	        Product deleted = em.find(Product.class, 5);
+	        assertNull(deleted);
+	    }
 }
