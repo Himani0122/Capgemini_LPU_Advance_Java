@@ -13,15 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 //		insertData();
 //		deletedata();
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		String s1 = "delete from college where id=?1";
-		et.begin();
-		Query q2 = em.createNativeQuery(s1);
-		q2.setParameter(1, 3); //u are deleting from college but best practice is first delete from college_student
-		q2.executeUpdate();
-		et.commit();
+		
 	}
 	public static void insertData() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
@@ -89,7 +81,7 @@ public class Main {
 		et.commit();
 	}
 	
-	public static void deletedata() {
+	public static void deletedatafromcollege_student() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
@@ -126,4 +118,49 @@ public class Main {
 		q1.executeUpdate();
 		et.commit();
 	}
+	public static void deletedatafromstudent() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		// Now deleting data from student it wont throw any error
+		String s = "delete from student where stu_id=?1";
+		et.begin();
+		Query q1 = em.createNativeQuery(s);
+		q1.setParameter(1, 101);
+		q1.executeUpdate();
+		et.commit();
+	}
+	public static void deletedatafromcollege() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		// deleting data from college it wont throw any error because college has
+		// student not student has college
+		//1 method
+		String s = "delete from college_student where college_id=?1";
+		String s1 = "delete from college where id=?1";
+		et.begin();
+		Query q2 = em.createNativeQuery(s1);
+		Query q3 = em.createNativeQuery(s);
+		q2.setParameter(1, 1); // u are deleting from college but best practice is first delete from
+								// college_student
+		q3.setParameter(1, 1);
+		q2.executeUpdate();
+		q3.executeUpdate();
+		et.commit();
+		
+		//2 method
+		
+		College c2 = new College();
+		c2.setId(3);
+		c2.setLocation("Hyderabad");
+		c2.setName("GHY");
+		c2.setPincode("ty3");
+		
+		
+		et.begin();
+		em.remove(c2);
+		et.commit();
+	}
+	
 }
