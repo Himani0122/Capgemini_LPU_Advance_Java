@@ -37,7 +37,7 @@ public class Student_Driver{
 		et.begin();
 		em.persist(a);
 		em.persist(h);
-		em.persist(s);
+		em.persist(s);		
 		et.commit();
 		
 		em.close();

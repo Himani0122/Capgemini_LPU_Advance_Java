@@ -1,5 +1,7 @@
 package mamnytomanybidirectional;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -9,6 +11,8 @@ public class Subject {
 	private int id;
 	private String name;
 	private int noOfDays;
+	
+	private Set<Student> stu;
 	public int getId() {
 		return id;
 	}
